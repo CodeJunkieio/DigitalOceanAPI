@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\Tests\DigitalOcean\Adapters;
+namespace JordanMalan\Tests\DigitalOcean\Adapters;
 
 use DigitalOceanV2\Adapter\BuzzAdapter;
-use GrahamCampbell\DigitalOcean\Adapters\BuzzConnector;
-use GrahamCampbell\TestBench\AbstractTestCase;
+use JordanMalan\DigitalOcean\Adapters\BuzzConnector;
+use JordanMalan\TestBench\AbstractTestCase;
 use InvalidArgumentException;
 
 /**
@@ -25,27 +25,20 @@ use InvalidArgumentException;
  */
 class BuzzConnectorTest extends AbstractTestCase
 {
-    public function testConnectStandard()
-    {
-        $connector = $this->getBuzzConnector();
+  public function testConnectStandard() {
+    $connector = $this->getBuzzConnector();
+    $return = $connector->connect(['token' => 'your-token']);
+    $this->assertInstanceOf(BuzzAdapter::class, $return);
+  }
 
-        $return = $connector->connect(['token' => 'your-token']);
+  public function testConnectWithoutToken() {
+    $connector = $this->getBuzzConnector();
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('The buzz connector requires configuration.');
+    $connector->connect([]);
+  }
 
-        $this->assertInstanceOf(BuzzAdapter::class, $return);
-    }
-
-    public function testConnectWithoutToken()
-    {
-        $connector = $this->getBuzzConnector();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The buzz connector requires configuration.');
-
-        $connector->connect([]);
-    }
-
-    protected function getBuzzConnector()
-    {
-        return new BuzzConnector();
-    }
+  protected function getBuzzConnector() {
+    return new BuzzConnector();
+  }
 }

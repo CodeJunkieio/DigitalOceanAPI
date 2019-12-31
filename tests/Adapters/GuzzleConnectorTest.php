@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\Tests\DigitalOcean\Adapters;
+namespace JordanMalan\Tests\DigitalOcean\Adapters;
 
 use DigitalOceanV2\Adapter\GuzzleAdapter;
-use GrahamCampbell\DigitalOcean\Adapters\GuzzleConnector;
-use GrahamCampbell\TestBench\AbstractTestCase;
+use JordanMalan\DigitalOcean\Adapters\GuzzleConnector;
+use JordanMalan\TestBench\AbstractTestCase;
 use InvalidArgumentException;
 
 /**
@@ -25,27 +25,20 @@ use InvalidArgumentException;
  */
 class GuzzleConnectorTest extends AbstractTestCase
 {
-    public function testConnectStandard()
-    {
-        $connector = $this->getGuzzleConnector();
+  public function testConnectStandard() {
+    $connector = $this->getGuzzleConnector();
+    $return = $connector->connect(['token' => 'your-token']);
+    $this->assertInstanceOf(GuzzleAdapter::class, $return);
+  }
 
-        $return = $connector->connect(['token' => 'your-token']);
+  public function testConnectWithoutTokent() {
+    $connector = $this->getGuzzleConnector();
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('The guzzle connector requires configuration.');
+    $connector->connect([]);
+  }
 
-        $this->assertInstanceOf(GuzzleAdapter::class, $return);
-    }
-
-    public function testConnectWithoutTokent()
-    {
-        $connector = $this->getGuzzleConnector();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The guzzle connector requires configuration.');
-
-        $connector->connect([]);
-    }
-
-    protected function getGuzzleConnector()
-    {
-        return new GuzzleConnector();
-    }
+  protected function getGuzzleConnector() {
+    return new GuzzleConnector();
+  }
 }

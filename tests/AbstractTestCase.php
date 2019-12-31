@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\Tests\DigitalOcean;
+namespace JordanMalan\Tests\DigitalOcean;
 
-use GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider;
-use GrahamCampbell\TestBench\AbstractPackageTestCase;
+use JordanMalan\DigitalOcean\DigitalOceanServiceProvider;
+use JordanMalan\TestBench\AbstractPackageTestCase;
 
 /**
  * This is the abstract test case class.
@@ -23,15 +23,14 @@ use GrahamCampbell\TestBench\AbstractPackageTestCase;
  */
 abstract class AbstractTestCase extends AbstractPackageTestCase
 {
-    /**
-     * Get the service provider class.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     *
-     * @return string
-     */
-    protected function getServiceProviderClass($app)
-    {
-        return DigitalOceanServiceProvider::class;
-    }
+  /**
+   * Get the service provider class.
+   *
+   * @param \Illuminate\Contracts\Foundation\Application $app
+   *
+   * @return string
+   */
+  protected function getServiceProviderClass($app) {
+    return DigitalOceanServiceProvider::class;
+  }
 }

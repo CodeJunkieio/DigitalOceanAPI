@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\Tests\DigitalOcean;
+namespace JordanMalan\Tests\DigitalOcean;
 
 use DigitalOceanV2\Adapter\AdapterInterface;
 use DigitalOceanV2\DigitalOceanV2;
-use GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory;
-use GrahamCampbell\DigitalOcean\DigitalOceanFactory;
-use GrahamCampbell\DigitalOcean\DigitalOceanManager;
-use GrahamCampbell\TestBench\AbstractTestCase as AbstractTestBenchTestCase;
+use JordanMalan\DigitalOcean\Adapters\ConnectionFactory;
+use JordanMalan\DigitalOcean\DigitalOceanFactory;
+use JordanMalan\DigitalOcean\DigitalOceanManager;
+use JordanMalan\TestBench\AbstractTestCase as AbstractTestBenchTestCase;
 use Mockery;
 
 /**
@@ -28,49 +28,33 @@ use Mockery;
  */
 class DigitalOceanFactoryTest extends AbstractTestBenchTestCase
 {
-    public function testMake()
-    {
-        $config = ['driver' => 'buzz', 'token'  => 'your-token'];
+  public function testMake() {
+    $config = ['driver' => 'buzz', 'token'  => 'your-token'];
+    $manager = Mockery::mock(DigitalOceanManager::class);
+    $factory = $this->getMockedFactory($config, $manager);
+    $return = $factory->make($config, $manager);
+    $this->assertInstanceOf(DigitalOceanV2::class, $return);
+  }
 
-        $manager = Mockery::mock(DigitalOceanManager::class);
-
-        $factory = $this->getMockedFactory($config, $manager);
-
-        $return = $factory->make($config, $manager);
-
-        $this->assertInstanceOf(DigitalOceanV2::class, $return);
-    }
-
-    public function testAdapter()
-    {
-        $factory = $this->getDigitalOceanFactory();
-
-        $config = ['driver' => 'guzzlehttp', 'token'  => 'your-token'];
-
-        $factory->getAdapter()->shouldReceive('make')->once()
+  public function testAdapter() {
+    $factory = $this->getDigitalOceanFactory();
+    $config = ['driver' => 'guzzlehttp', 'token'  => 'your-token'];
+    $factory->getAdapter()->shouldReceive('make')->once()
             ->with($config)->andReturn(Mockery::mock(AdapterInterface::class));
+    $return = $factory->createAdapter($config);
+    $this->assertInstanceOf(AdapterInterface::class, $return);
+  }
 
-        $return = $factory->createAdapter($config);
+  protected function getDigitalOceanFactory() {
+    $adapter = Mockery::mock(ConnectionFactory::class);
+    return new DigitalOceanFactory($adapter);
+  }
 
-        $this->assertInstanceOf(AdapterInterface::class, $return);
-    }
-
-    protected function getDigitalOceanFactory()
-    {
-        $adapter = Mockery::mock(ConnectionFactory::class);
-
-        return new DigitalOceanFactory($adapter);
-    }
-
-    protected function getMockedFactory($config, $manager)
-    {
-        $adapter = Mockery::mock(ConnectionFactory::class);
-
-        $mock = Mockery::mock(DigitalOceanFactory::class.'[createAdapter]', [$adapter]);
-
-        $mock->shouldReceive('createAdapter')->once()
-            ->with($config)->andReturn(Mockery::mock(AdapterInterface::class));
-
-        return $mock;
-    }
+  protected function getMockedFactory($config, $manager) {
+    $adapter = Mockery::mock(ConnectionFactory::class);
+    $mock = Mockery::mock(DigitalOceanFactory::class.'[createAdapter]', [$adapter]);
+    $mock->shouldReceive('createAdapter')->once()
+         ->with($config)->andReturn(Mockery::mock(AdapterInterface::class));
+    return $mock;
+  }
 }

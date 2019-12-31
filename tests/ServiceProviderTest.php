@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\Tests\DigitalOcean;
+namespace JordanMalan\Tests\DigitalOcean;
 
 use DigitalOceanV2\DigitalOceanV2;
-use GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory as AdapterFactory;
-use GrahamCampbell\DigitalOcean\DigitalOceanFactory;
-use GrahamCampbell\DigitalOcean\DigitalOceanManager;
-use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
+use JordanMalan\DigitalOcean\Adapters\ConnectionFactory as AdapterFactory;
+use JordanMalan\DigitalOcean\DigitalOceanFactory;
+use JordanMalan\DigitalOcean\DigitalOceanManager;
+use JordanMalan\TestBenchCore\ServiceProviderTrait;
 
 /**
  * This is the service provider test class.
@@ -26,32 +26,26 @@ use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
  */
 class ServiceProviderTest extends AbstractTestCase
 {
-    use ServiceProviderTrait;
+  use ServiceProviderTrait;
 
-    public function testAdapterFactoryIsInjectable()
-    {
-        $this->assertIsInjectable(AdapterFactory::class);
-    }
+  public function testAdapterFactoryIsInjectable() {
+    $this->assertIsInjectable(AdapterFactory::class);
+  }
 
-    public function testDigitalOceanFactoryIsInjectable()
-    {
-        $this->assertIsInjectable(DigitalOceanFactory::class);
-    }
+  public function testDigitalOceanFactoryIsInjectable() {
+    $this->assertIsInjectable(DigitalOceanFactory::class);
+  }
 
-    public function testDigitalOceanManagerIsInjectable()
-    {
-        $this->assertIsInjectable(DigitalOceanManager::class);
-    }
+  public function testDigitalOceanManagerIsInjectable() {
+    $this->assertIsInjectable(DigitalOceanManager::class);
+  }
 
-    public function testBindings()
-    {
-        $this->assertIsInjectable(DigitalOceanV2::class);
-
-        $original = $this->app['digitalocean.connection'];
-        $this->app['digitalocean']->reconnect();
-        $new = $this->app['digitalocean.connection'];
-
-        $this->assertNotSame($original, $new);
-        $this->assertEquals($original, $new);
-    }
+  public function testBindings() {
+    $this->assertIsInjectable(DigitalOceanV2::class);
+    $original = $this->app['digitalocean.connection'];
+    $this->app['digitalocean']->reconnect();
+    $new = $this->app['digitalocean.connection'];
+    $this->assertNotSame($original, $new);
+    $this->assertEquals($original, $new);
+  }
 }
