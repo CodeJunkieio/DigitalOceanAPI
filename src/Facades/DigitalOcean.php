@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\DigitalOcean\Facades;
+namespace JordanMalan\DigitalOcean\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -22,13 +22,12 @@ use Illuminate\Support\Facades\Facade;
  */
 class DigitalOcean extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor()
-    {
-        return 'digitalocean';
-    }
+  /**
+   * Get the registered name of the component.
+   *
+   * @return string
+   */
+  protected static function getFacadeAccessor() {
+    return 'digitalocean';
+  }
 }

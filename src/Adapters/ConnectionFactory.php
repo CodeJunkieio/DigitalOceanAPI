@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\DigitalOcean\Adapters;
+namespace JordanMalan\DigitalOcean\Adapters;
 
 use InvalidArgumentException;
 
@@ -22,42 +22,38 @@ use InvalidArgumentException;
  */
 class ConnectionFactory
 {
-    /**
-     * Establish an adapter connection.
-     *
-     * @param array $config
-     *
-     * @return \DigitalOceanV2\Adapter\AdapterInterface
-     */
-    public function make(array $config)
-    {
-        return $this->createConnector($config)->connect($config);
+  /**
+   * Establish an adapter connection.
+   *
+   * @param array $config
+   *
+   * @return \DigitalOceanV2\Adapter\AdapterInterface
+   */
+  public function make(array $config) {
+    return $this->createConnector($config)->connect($config);
+  }
+
+  /**
+   * Create a connector instance based on the configuration.
+   *
+   * @param array $config
+   *
+   * @throws \InvalidArgumentException
+   *
+   * @return \JordanMalan\Manager\ConnectorInterface
+   */
+  public function createConnector(array $config) {
+    if (!isset($config['driver'])) {
+      throw new InvalidArgumentException('A driver must be specified.');
     }
-
-    /**
-     * Create a connector instance based on the configuration.
-     *
-     * @param array $config
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return \GrahamCampbell\Manager\ConnectorInterface
-     */
-    public function createConnector(array $config)
-    {
-        if (!isset($config['driver'])) {
-            throw new InvalidArgumentException('A driver must be specified.');
-        }
-
-        switch ($config['driver']) {
-            case 'buzz':
-                return new BuzzConnector();
-            case 'guzzle':
-                return new GuzzleConnector();
-            case 'guzzlehttp':
-                return new GuzzleHttpConnector();
-        }
-
-        throw new InvalidArgumentException("Unsupported driver [{$config['driver']}].");
+    switch ($config['driver']) {
+      case 'buzz':
+        return new BuzzConnector();
+      case 'guzzle':
+        return new GuzzleConnector();
+      case 'guzzlehttp':
+        return new GuzzleHttpConnector();
     }
+    throw new InvalidArgumentException("Unsupported driver [{$config['driver']}].");
+  }
 }

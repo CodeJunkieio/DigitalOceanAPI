@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace GrahamCampbell\DigitalOcean;
+namespace JordanMalan\DigitalOcean;
 
-use GrahamCampbell\Manager\AbstractManager;
+use JordanMalan\Manager\AbstractManager;
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -33,56 +33,52 @@ use Illuminate\Contracts\Config\Repository;
  */
 class DigitalOceanManager extends AbstractManager
 {
-    /**
-     * The factory instance.
-     *
-     * @var \GrahamCampbell\DigitalOcean\DigitalOceanFactory
-     */
-    protected $factory;
+  /**
+   * The factory instance.
+   *
+   * @var \JordanMalan\DigitalOcean\DigitalOceanFactory
+   */
+  protected $factory;
 
-    /**
-     * Create a new digitalocean manager instance.
-     *
-     * @param \Illuminate\Contracts\Config\Repository          $config
-     * @param \GrahamCampbell\DigitalOcean\DigitalOceanFactory $factory
-     *
-     * @return void
-     */
-    public function __construct(Repository $config, DigitalOceanFactory $factory)
-    {
-        parent::__construct($config);
-        $this->factory = $factory;
-    }
+  /**
+   * Create a new digitalocean manager instance.
+   *
+   * @param \Illuminate\Contracts\Config\Repository          $config
+   * @param \JordanMalan\DigitalOcean\DigitalOceanFactory $factory
+   *
+   * @return void
+   */
+  public function __construct(Repository $config, DigitalOceanFactory $factory) {
+    parent::__construct($config);
+    $this->factory = $factory;
+  }
 
-    /**
-     * Create the connection instance.
-     *
-     * @param array $config
-     *
-     * @return \DigitalOceanV2\DigitalOceanV2
-     */
-    protected function createConnection(array $config)
-    {
-        return $this->factory->make($config);
-    }
+  /**
+   * Create the connection instance.
+   *
+   * @param array $config
+   *
+   * @return \DigitalOceanV2\DigitalOceanV2
+   */
+  protected function createConnection(array $config) {
+    return $this->factory->make($config);
+  }
 
-    /**
-     * Get the configuration name.
-     *
-     * @return string
-     */
-    protected function getConfigName()
-    {
-        return 'digitalocean';
-    }
+  /**
+   * Get the configuration name.
+   *
+   * @return string
+   */
+  protected function getConfigName() {
+    return 'digitalocean';
+  }
 
-    /**
-     * Get the factory instance.
-     *
-     * @return \GrahamCampbell\DigitalOcean\DigitalOceanFactory
-     */
-    public function getFactory()
-    {
-        return $this->factory;
-    }
+  /**
+   * Get the factory instance.
+   *
+   * @return \JordanMalan\DigitalOcean\DigitalOceanFactory
+   */
+  public function getFactory() {
+    return $this->factory;
+  }
 }
